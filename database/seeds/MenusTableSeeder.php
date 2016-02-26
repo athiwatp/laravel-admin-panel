@@ -36,5 +36,13 @@ class MenusTableSeeder extends Seeder
             'position' => 2,
             'default' => 0,
         ]);
+
+        DB::table('menus')->insert([
+            'parent_id' => NULL,
+            'section' => 'admin',
+            'name' => 'Test',
+            'route' => 'test',
+            'position' => 2
+        ]);
     }
 }
