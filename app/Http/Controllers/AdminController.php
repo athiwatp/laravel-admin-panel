@@ -39,7 +39,10 @@ class AdminController extends Controller
      */
     public function index()
     {
-
         return view('admin.index');
+    }
+
+    public function users_administrator(){
+        return view('admin.users.administrator');
     }
 }

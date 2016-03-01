@@ -27,7 +27,6 @@ Route::get('/', function () {
 */
 
 
-
 Route::group(['middleware' => ['web']], function () {
 
     //Route::auth();
@@ -37,8 +36,11 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/', 'AdminController@index');
-        Route::resource('users/administrator', 'AdminController');
+        Route::resource('users/administrator', 'AdminController@users_administrator');
     });
+
+    // Admin APIs
+    Route::resource('admin/users/api/administrator', 'UsersAdministratorController');
 
 
 });
