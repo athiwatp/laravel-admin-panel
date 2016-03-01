@@ -14,7 +14,12 @@ class Menu extends Model
 
     public function children()
     {
-        return $this->hasMany('App\Menu', 'parent_id', 'id');
+        $user = Auth::user()->roles()->first();
+
+        return $this->hasMany('App\Menu', 'parent_id', 'id')
+            ->join('menu_roles', 'menus.id', '=', 'menu_roles.menu_id')
+            ->join('role_users', 'menu_roles.role_id', '=', 'role_users.role_id')
+            ->where('role_users.role_id', '=', $user->pivot->role_id);
     }
 
     public function parent()
@@ -24,13 +29,15 @@ class Menu extends Model
 
     public function getTopMenu()
     {
+        return $this->topMenuQuery()->whereNull('menus.parent_id');
+    }
+
+    private function topMenuQuery()
+    {
         $user = Auth::user()->roles()->first();
 
-        return
-            $this
-                ->join('menu_roles', 'menus.id', '=', 'menu_roles.menu_id')
-                ->join('role_users', 'menu_roles.role_id', '=', 'role_users.role_id')
-                ->where('role_users.role_id', '=', $user->pivot->role_id)
-                ->whereNull('menus.parent_id');
+        return $this->join('menu_roles', 'menus.id', '=', 'menu_roles.menu_id')
+            ->join('role_users', 'menu_roles.role_id', '=', 'role_users.role_id')
+            ->where('role_users.role_id', '=', $user->pivot->role_id);
     }
 }
