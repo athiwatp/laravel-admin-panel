@@ -59,7 +59,7 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     @foreach($menu->children as $childMenu)
-                                        <li><a href="{{ $childMenu->section .'/'. $childMenu->route }}" class="{{ $childMenu->class }}">{{ $childMenu->name }}</a></li>
+                                        <li><a href="{{ url($childMenu->route) }}" class="{{ $childMenu->class }}">{{ $childMenu->name }}</a></li>
                                     @endforeach
                                 </ul>
                             @else

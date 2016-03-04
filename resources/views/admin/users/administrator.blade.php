@@ -25,7 +25,7 @@
                                     <td>
                                         <button class="btn btn-small btn-info" @click="ShowRecord(user.id)">
                                         Edit</button>
-                                        <button class="btn btn-small btn-danger" @click="RemoveRecord(user.id)">
+                                        <button v-show="!user.roles[0] || user.roles[0].name != `super`" class="btn btn-small btn-danger" @click="RemoveRecord(user.id)">
                                         Delete</button>
                                     </td>
                                 </tr>
