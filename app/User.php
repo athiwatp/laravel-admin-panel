@@ -44,12 +44,16 @@ class User extends Authenticatable
      */
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_users');
+        return $this->belongsToMany(Role::class, 'role_users', 'role_id', 'user_id');
     }
 
-    public function menu_roles()
+    public function hasRouteAccess()
     {
-        return $this->hasMany();
+        $path = request()->path();
+        return $this->roles()
+            ->join('menu_roles', 'role_users.role_id', '=', 'menu_roles.role_id')
+            ->join('menus', 'menus.id', '=', 'menu_roles.menu_id')
+            ->where('menus.route', '=', $path)->count();
     }
 
 

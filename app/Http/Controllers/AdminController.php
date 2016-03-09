@@ -27,7 +27,6 @@ class AdminController extends Controller
     public function __construct()
     {
         $user = Auth::user();
-        $path = request()->path();
 
         if ($user) {
             $top_menus = Menu::find(1)->getTopMenu();
@@ -37,16 +36,18 @@ class AdminController extends Controller
 
         view::share('top_menus', $top_menus);
 
-        // Need to add exception for admin
+        $this->middleware('admin', ['except' => 'index']);
+
+        /*  Need to add exception for admin
         if (!in_array($path, $this->allowed_paths)) {
             $hasRouteAccess = Menu::find(1)->hasRouteAccess($path)->count();
             if (!$hasRouteAccess) {
-                return redirect('/admin');
+                redirect()->guest('admin');
+            } else {
+                echo 'Yes';
             }
-        }
+        }*/
 
-
-        $this->middleware('auth');
     }
 
     /**
@@ -60,5 +61,10 @@ class AdminController extends Controller
     public function users_administrator()
     {
         return view('admin.users.administrator');
+    }
+
+    public function users_roles()
+    {
+        return view('admin.users.roles');
     }
 }

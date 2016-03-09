@@ -37,7 +37,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/', 'AdminController@index');
         Route::resource('users/administrator', 'AdminController@users_administrator');
-        Route::resource('users/roles', 'AdminController@users_administrator');
+        Route::resource('users/roles', 'AdminController@users_roles');
     });
 
     // Admin APIs
