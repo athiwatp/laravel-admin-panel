@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Menu;
+use App\User;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,8 @@ use stdClass;
 class AdminController extends Controller
 {
 
+    public $allowed_paths = array('admin');
+
     /**
      * Create a new controller instance.
      *
@@ -23,15 +26,28 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        if (Auth::user()) {
-            $top_menus = Menu::find(1)->getTopMenu()->get();
+        $user = Auth::user();
+
+        if ($user) {
+            $top_menus = Menu::find(1)->getTopMenu();
         } else {
             $top_menus = new StdClass;
         }
 
         view::share('top_menus', $top_menus);
 
-        $this->middleware('auth');
+        $this->middleware('admin', ['except' => 'index']);
+
+        /*  Need to add exception for admin
+        if (!in_array($path, $this->allowed_paths)) {
+            $hasRouteAccess = Menu::find(1)->hasRouteAccess($path)->count();
+            if (!$hasRouteAccess) {
+                redirect()->guest('admin');
+            } else {
+                echo 'Yes';
+            }
+        }*/
+
     }
 
     /**
@@ -42,7 +58,13 @@ class AdminController extends Controller
         return view('admin.index');
     }
 
-    public function users_administrator(){
+    public function users_administrator()
+    {
         return view('admin.users.administrator');
+    }
+
+    public function users_roles()
+    {
+        return view('admin.users.roles');
     }
 }

@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 
 class Menu extends Model
 {
+
+    public $allowed_paths = array('admin');
+
     public function roles()
     {
         return $this->belongsToMany('App\Role', 'menu_roles');
@@ -29,7 +32,7 @@ class Menu extends Model
 
     public function getTopMenu()
     {
-        return $this->topMenuQuery()->whereNull('menus.parent_id');
+        return $this->topMenuQuery()->whereNull('menus.parent_id')->get();
     }
 
     private function topMenuQuery()
@@ -39,5 +42,12 @@ class Menu extends Model
         return $this->join('menu_roles', 'menus.id', '=', 'menu_roles.menu_id')
             ->join('role_users', 'menu_roles.role_id', '=', 'role_users.role_id')
             ->where('role_users.role_id', '=', $user->pivot->role_id);
+    }
+
+    public function hasRouteAccess($path)
+    {
+        return $this->join('menu_roles', 'menus.id', '=', 'menu_roles.menu_id')
+            ->join('role_users', 'menu_roles.role_id', '=', 'role_users.role_id')
+            ->where('menus.route', '=', $path);
     }
 }
