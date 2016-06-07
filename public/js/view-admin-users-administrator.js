@@ -1,6 +1,18 @@
 /**
  * Created by Navdeep on 01-03-2016.
  */
+
+// register modal component
+Vue.component('modal', {
+    template: '#modal-template',
+    props: {
+        show: {
+            type: Boolean,
+            required: true,
+            twoWay: true
+        }
+    }
+})
 var vm = new Vue({
 
     http: {
@@ -23,7 +35,9 @@ var vm = new Vue({
 
         edit: false,
 
-        showForm : false
+        showForm : false,
+
+        showModal: false
     },
 
     methods: {
@@ -56,39 +70,26 @@ var vm = new Vue({
         },
 
         AddNewRecord: function () {
-            // User input
-            var record = this.newRecord;
+            this.$set('form.title', 'Add User');
 
             // Clear form input
-            this.newRecord = {name: '', email: '', crud_level: ''}
+            var user = {name: '', email: ''}
+            this.$set('user', user);
+
 
             // Send post request
-            this.$http.post('/api/v1/records/', record);
-
-            // Show success message
-            self = this;
-            this.success = true;
-            setTimeout(function () {
-                self.success = false
-            }, 5000);
+            //this.$http.post('/api/v1/records/', record);
 
             // Reload page
             this.getRecords();
         },
 
         EditRecord: function (id) {
-            var record = this.newRecord;
-
-            this.newRecord = {id: '', name: '', email: '', address: ''}
-
-            this.$http.patch('/api/v1/records/' + id, record, function (data) {
-                console.log(data)
-            });
-
-            this.getRecords();
-
-            this.edit = false;
-
+            this.$set('form.title', 'Edit User');
+            this.$http.get('api/administrator/'+id+'/edit', function (data) {
+                this.$set('user', data);
+                console.log(data);
+            })
         },
 
         RemoveRecord: function (id) {
@@ -122,4 +123,3 @@ var vm = new Vue({
     }
 
 });
-

@@ -34,7 +34,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('admin/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@login']);
     Route::get('admin/logout', ['as' => 'auth.logout', 'uses' => 'Auth\AuthController@logout']);
 
-    Route::group(['prefix' => 'admin'], function () {
+    Route::group(['prefix' => 'admin', 'middleware' => ['auth'] ], function () {
         Route::get('/', 'AdminController@index');
         Route::resource('users/administrator', 'AdminController@users_administrator');
         Route::resource('users/roles', 'AdminController@users_roles');

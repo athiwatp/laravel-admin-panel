@@ -36,7 +36,7 @@ class AdminController extends Controller
 
         view::share('top_menus', $top_menus);
 
-        $this->middleware('admin', ['except' => 'index']);
+        //$this->middleware('admin', ['except' => 'index']);
 
         /*  Need to add exception for admin
         if (!in_array($path, $this->allowed_paths)) {

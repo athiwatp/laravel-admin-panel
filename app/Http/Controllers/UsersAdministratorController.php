@@ -60,7 +60,7 @@ class UsersAdministratorController extends Controller
      */
     public function edit($id)
     {
-        //
+        return User::findOrFail($id);
     }
 
     /**
@@ -72,7 +72,7 @@ class UsersAdministratorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       return User::findOrFail($id)->update($request->all());
     }
 
     /**
