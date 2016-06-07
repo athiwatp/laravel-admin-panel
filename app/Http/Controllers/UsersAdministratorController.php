@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
+
 
 class UsersAdministratorController extends Controller
 {
@@ -38,7 +40,7 @@ class UsersAdministratorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return User::create($request->all());
     }
 
     /**
@@ -72,7 +74,8 @@ class UsersAdministratorController extends Controller
      */
     public function update(Request $request, $id)
     {
-       return User::findOrFail($id)->update($request->all());
+        User::findOrFail($id)->update($request->all());
+        return Response::json($request->all());
     }
 
     /**
@@ -83,6 +86,6 @@ class UsersAdministratorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return User::destroy($id);
     }
 }

@@ -2,17 +2,6 @@
  * Created by Navdeep on 01-03-2016.
  */
 
-// register modal component
-Vue.component('modal', {
-    template: '#modal-template',
-    props: {
-        show: {
-            type: Boolean,
-            required: true,
-            twoWay: true
-        }
-    }
-})
 var vm = new Vue({
 
     http: {
@@ -24,48 +13,16 @@ var vm = new Vue({
     el: '#vue-container',
 
     data: {
-        newRecord: {
-            id: '',
+        user: {
             name: '',
-            email: '',
-            crud_level: ''
-        },
-
-        success: false,
-
-        edit: false,
-
-        showForm : false,
-
-        showModal: false
+            email: ''
+        }
     },
 
     methods: {
-        setShowForm: function(event){
-            this.showForm = true;
-            this.edit = false;
-            this.newRecord.id = '';
-            this.newRecord.name = '';
-            this.newRecord.email = '';
-            this.newRecord.crud_level = '';
-        },
-
         getRecords: function () {
             this.$http.get('api/administrator', function (data) {
                 this.$set('users', data)
-            })
-        },
-
-
-        ShowRecord: function (id) {
-            this.showForm = true;
-            this.edit = true;
-
-            this.$http.get('/api/v1/records/' + id, function (data) {
-                this.newRecord.id = data.id;
-                this.newRecord.name = data.name;
-                this.newRecord.email = data.email;
-                this.newRecord.crud_level = data.crud_level
             })
         },
 
@@ -91,11 +48,25 @@ var vm = new Vue({
                 console.log(data);
             })
         },
+        saveFormDetails: function(record) {
+            if ( record || {} ) {
+                this.$http.post('api/administrator', this.user, function (data) {
+                    this.getRecords();
+                    $("#formModal").modal('hide');
+                });
+            } else {
+                this.$http.patch('api/administrator/'+record.id, this.user, function (data) {
+                    this.getRecords();
+                    $("#formModal").modal('hide');
+                });
+            }
+
+        },
 
         RemoveRecord: function (id) {
             var ConfirmBox = confirm("Are you sure, you want to delete this Record?");
 
-            if (ConfirmBox) this.$http.delete('/api/v1/records/' + id);
+            if (ConfirmBox) this.$http.delete('api/administrator/' + id);
 
             this.getRecords();
         }

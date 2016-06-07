@@ -23,9 +23,11 @@
                                     <td>@{{ user.roles[0].full_name }}</td>
                                     <td>@{{ user.last_login }}</td>
                                     <td>
-                                        <button class="btn btn-small btn-info" @click="EditRecord(user.id)" data-toggle="modal" data-target="#formModal" data-whatever="@mdo">
+                                        <button class="btn btn-small btn-info" @click="EditRecord(user.id)" data-toggle=
+                                        "modal" data-target="#formModal">
                                         Edit</button>
-                                        <button v-show="!user.roles[0] || user.roles[0].name != `super`" class="btn btn-small btn-danger" @click="RemoveRecord(user.id)">
+                                        <button v-show="!user.roles[0] || user.roles[0].name != `super`"
+                                                class="btn btn-small btn-danger" @click="RemoveRecord(user.id)">
                                         Delete</button>
                                     </td>
                                 </tr>
@@ -39,32 +41,34 @@
         <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModallLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="formModalLabel">@{{ form.title }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form>
+                    <form>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="formModalLabel">@{{ form.title }}</h4>
+                        </div>
+                        <div class="modal-body">
                             <div class="form-group">
                                 <label for="name" class="control-label">Name:</label>
-                                <input type="text" class="form-control" id="name" value="@{{ user.name }}">
+                                <input type="text" class="form-control" id="name" v-model="user.name" value="@{{ user.name }}" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="email" class="control-label">Email:</label>
-                                <input type="text" class="form-control" id="name" value="@{{ user.email }}">
+                                <input type="text" class="form-control" id="name" v-model="user.email" value="@{{ user.email }}" autocomplete="off">
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Submit</button>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" @click="saveFormDetails(user)" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
         <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-        <button type="button" class="btn btn-primary glyphicon glyphicon-plus img-circle" @click="AddNewRecord()" data-toggle="modal" data-target="#formModal"></button>
+        <button type="button" class="btn btn-primary glyphicon glyphicon-plus img-circle" @click="AddNewRecord()"
+        data-toggle="modal" data-target="#formModal"></button>
 
     </div>
 
