@@ -15,7 +15,8 @@ var vm = new Vue({
     data: {
         user: {
             name: '',
-            email: ''
+            email: '',
+            password : ''
         }
     },
 
@@ -33,10 +34,6 @@ var vm = new Vue({
             var user = {name: '', email: ''}
             this.$set('user', user);
 
-
-            // Send post request
-            //this.$http.post('/api/v1/records/', record);
-
             // Reload page
             this.getRecords();
         },
@@ -49,18 +46,20 @@ var vm = new Vue({
             })
         },
         saveFormDetails: function(record) {
-            if ( record || {} ) {
+            console.log(record.id);
+            if ( record.id == undefined ) {
                 this.$http.post('api/administrator', this.user, function (data) {
-                    this.getRecords();
-                    $("#formModal").modal('hide');
+                    this.postFormSubmission();
                 });
             } else {
                 this.$http.patch('api/administrator/'+record.id, this.user, function (data) {
-                    this.getRecords();
-                    $("#formModal").modal('hide');
+                    this.postFormSubmission();
                 });
             }
-
+        },
+        postFormSubmission : function() {
+            this.getRecords();
+            $("#formModal").modal('hide');
         },
 
         RemoveRecord: function (id) {

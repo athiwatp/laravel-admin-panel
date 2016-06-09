@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.scss"],"names":[],"mappings":"AAEA;EACE,aAAc,EACf;;AACD;EACE,iBAAiB;EACjB,aAAa,EACd","file":"app.css","sourcesContent":["// @import \"node_modules/bootstrap-sass/assets/stylesheets/bootstrap\";\n\nbody {\n  color : green;\n}\n.btn-add-more{\n  position: static;\n  float: right;\n}\n"],"sourceRoot":"/source/"}

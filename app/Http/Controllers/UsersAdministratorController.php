@@ -35,18 +35,18 @@ class UsersAdministratorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        return User::create($request->all());
+        return $this->createUser($request);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -57,7 +57,7 @@ class UsersAdministratorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -68,24 +68,43 @@ class UsersAdministratorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        User::findOrFail($id)->update($request->all());
+        $user = User::findOrFail($id);
+        if ($request->input('password') != '') {
+            $user->update(array_merge(
+                array('password' => bcrypt($request->input('password'))),
+                $request->except(['password'])
+            ));
+        } else {
+            $user->update($request->except(['password']));
+        }
+
         return Response::json($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         return User::destroy($id);
+    }
+
+    private function createUser(Request $request)
+    {
+        $user = User::create(array_merge(
+            array('password' => bcrypt($request->input('password'))),
+            $request->except(['password'])
+        ));
+        $user->roles()->sync(array('2'));
+        return $user;
     }
 }

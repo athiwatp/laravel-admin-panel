@@ -56,6 +56,10 @@
                                 <label for="email" class="control-label">Email:</label>
                                 <input type="text" class="form-control" id="name" v-model="user.email" value="@{{ user.email }}" autocomplete="off">
                             </div>
+                            <div class="form-group">
+                                <label for="password" class="control-label">Password:</label>
+                                <input type="password" class="form-control" id="password" v-model="user.password" value="@{{ user.password }}" autocomplete="off">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -67,7 +71,7 @@
         </div>
 
         <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-        <button type="button" class="btn btn-primary glyphicon glyphicon-plus img-circle" @click="AddNewRecord()"
+        <button type="button" class="btn-add-more btn btn-primary glyphicon glyphicon-plus img-circle" @click="AddNewRecord()"
         data-toggle="modal" data-target="#formModal"></button>
 
     </div>
