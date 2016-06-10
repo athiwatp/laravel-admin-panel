@@ -16,7 +16,7 @@ var vm = new Vue({
         user: {
             name: '',
             email: '',
-            password : ''
+            password: ''
         }
     },
 
@@ -40,26 +40,30 @@ var vm = new Vue({
 
         EditRecord: function (id) {
             this.$set('form.title', 'Edit User');
-            this.$http.get('api/administrator/'+id+'/edit', function (data) {
+            this.$http.get('api/administrator/' + id + '/edit', function (data) {
                 this.$set('user', data);
                 console.log(data);
             })
         },
-        saveFormDetails: function(record) {
-            console.log(record.id);
-            if ( record.id == undefined ) {
+        saveFormDetails: function (record) {
+            if (record.id == undefined) {
                 this.$http.post('api/administrator', this.user, function (data) {
-                    this.postFormSubmission();
+                    this.postFormSubmission(data);
                 });
             } else {
-                this.$http.patch('api/administrator/'+record.id, this.user, function (data) {
-                    this.postFormSubmission();
+                this.$http.patch('api/administrator/' + record.id, this.user, function (data) {
+                    this.postFormSubmission(data);
                 });
             }
         },
-        postFormSubmission : function() {
-            this.getRecords();
-            $("#formModal").modal('hide');
+        postFormSubmission: function (data) {
+            this.cleanErrors();
+            if (data.errors != undefined) {
+                this.showErrors(data.errors);
+            } else {
+                this.getRecords();
+                $("#formModal").modal('hide');
+            }
         },
 
         RemoveRecord: function (id) {
@@ -68,6 +72,18 @@ var vm = new Vue({
             if (ConfirmBox) this.$http.delete('api/administrator/' + id);
 
             this.getRecords();
+        },
+        showErrors: function (elems) {
+
+            $.each(elems, function (i, val) {
+                var errorElem = $('input[name=' + i);
+                errorElem.parent('.form-group').addClass('has-error');
+                errorElem.after('<span class="help-block"><strong>' + val + '</strong></span>');
+            });
+        },
+        cleanErrors: function () {
+            $('.form-group').removeClass('has-error');
+            $('.help-block').remove();
         }
     },
 

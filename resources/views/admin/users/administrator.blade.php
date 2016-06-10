@@ -50,15 +50,15 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="name" class="control-label">Name:</label>
-                                <input type="text" class="form-control" id="name" v-model="user.name" value="@{{ user.name }}" autocomplete="off">
+                                <input type="text" class="form-control" name="name" id="name" v-model="user.name" value="@{{ user.name }}" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="email" class="control-label">Email:</label>
-                                <input type="text" class="form-control" id="name" v-model="user.email" value="@{{ user.email }}" autocomplete="off">
+                                <input type="text" class="form-control" name="email" id="email" v-model="user.email" value="@{{ user.email }}" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="password" class="control-label">Password:</label>
-                                <input type="password" class="form-control" id="password" v-model="user.password" value="@{{ user.password }}" autocomplete="off">
+                                <input type="password" class="form-control" name="password" id="password" v-model="user.password" value="@{{ user.password }}" autocomplete="off">
                             </div>
                         </div>
                         <div class="modal-footer">

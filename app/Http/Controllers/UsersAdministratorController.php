@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 
 class UsersAdministratorController extends Controller
@@ -40,6 +41,20 @@ class UsersAdministratorController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            $error_messages = array('errors' => json_decode($messages, true));
+            return Response::json($error_messages);
+        }
+
         return $this->createUser($request);
     }
 
