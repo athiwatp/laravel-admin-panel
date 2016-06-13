@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Menu;
 use App\User;
+use App\Role as Roles;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Http\Request;
 
@@ -65,6 +66,8 @@ class AdminController extends Controller
 
     public function users_roles()
     {
-        return view('admin.users.roles');
+        $roles = Roles::all();
+
+        return view('admin.users.roles', compact('roles'));
     }
 }
