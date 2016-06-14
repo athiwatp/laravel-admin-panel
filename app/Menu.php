@@ -25,6 +25,11 @@ class Menu extends Model
             ->where('role_users.role_id', '=', $user->pivot->role_id);
     }
 
+    public function getChildren()
+    {
+        return $this->children()->get();
+    }
+
     public function parent()
     {
         return $this->hasMany('App\Menu', 'id');
@@ -50,4 +55,20 @@ class Menu extends Model
             ->join('role_users', 'menu_roles.role_id', '=', 'role_users.role_id')
             ->where('menus.route', '=', $path);
     }
+
+    public function hasChildren()
+    {
+        return (bool)$this->children()->count();
+    }
+
+    public function scopeTopLevel($query)
+    {
+        return $query->whereNull('parent_id')->get();
+    }
+
+    public function hasPermission($role_id)
+    {
+        return (bool) ( $this->roles()->first()->pivot->role_id == $role_id ) ? 1 : 0;
+    }
+
 }

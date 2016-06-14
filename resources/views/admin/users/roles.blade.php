@@ -23,13 +23,24 @@
                                     @foreach($roles as $key => $role)
                                         <div role="tabpanel" class="tab-pane {{ $key == 0 ? 'active' : '' }}" id="{{$role->name}}">
                                             <ul>
-                                                @foreach($role->menus() as $menu)
-                                                    <li>{{ $menu->id }}</li>
+                                                @foreach(App\Menu::topLevel() as $menu)
+                                                    <li>{{ $menu->name }} <input type="checkbox" name="{{$menu->name}}" id="{{$menu->name}}" value="1" {{ $menu->hasPermission($role->id) ? 'checked' : '' }}></li>
+                                                    @if ($menu->hasChildren())
+                                                        <ul>
+                                                            @foreach ($menu->getChildren() as $sub_menu)
+                                                                <li>{{$sub_menu->name}} <input type="checkbox" name="{{$sub_menu->name}}" id="{{$sub_menu->name}}" value="1" {{ $sub_menu->hasPermission($role->id) ? 'checked' : '' }}></li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
                                                 @endforeach
                                             </ul>
                                         </div>
                                     @endforeach
                                 </div>
+
+                                <hr>
+
+                                <button class="btn btn-small btn-info pull-right">Submit</button>
 
                             </div>
                         </div>

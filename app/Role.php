@@ -16,12 +16,12 @@ class Role extends Model
 
     public function menus()
     {
-        return $this->hasManyThrough('App\Menu', 'menu_roles', 'role_id', 'menu_id');
+        return $this->belongsToMany('App\Menu', 'menu_roles', 'role_id', 'menu_id');
     }
 
-    public function all_menus(){
-        return $this->menus->join('menu_roles', 'menus.id', '=', 'menu_roles.menu_id')
-            ->join('menu_roles', 'roles.id', '=', 'menu_roles.role_id')
-            ->get();
+    public function top_level_menus(){
+        return $this->menus()->whereNull('parent_id')->get();
     }
+
+
 }
