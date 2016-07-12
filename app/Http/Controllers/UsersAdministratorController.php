@@ -119,7 +119,7 @@ class UsersAdministratorController extends Controller
             array('password' => bcrypt($request->input('password'))),
             $request->except(['password'])
         ));
-        $user->roles()->sync(array('2'));
+        $user->roles()->sync(['2']);
         return $user;
     }
 }

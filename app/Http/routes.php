@@ -38,10 +38,15 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/', 'AdminController@index');
         Route::resource('users/administrator', 'AdminController@users_administrator');
         Route::resource('users/roles', 'AdminController@users_roles');
+        // Admin APIs
+        Route::resource('users/api/administrator', 'UsersAdministratorController');
+        Route::resource('users/api/roles', 'UsersRolesController');
+
     });
 
-    // Admin APIs
-    Route::resource('admin/users/api/administrator', 'UsersAdministratorController');
+
+
+
 
 
 });
