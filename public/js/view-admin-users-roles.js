@@ -23,7 +23,7 @@ var vm = new Vue({
             //var checked = $('input.checkedMenus:checked');
             this.checkedMenus = { '1' : this.checkedMenus1, '2' : this.checkedMenus2 } ;
             this.$http.post('api/roles/', this.checkedMenus, function (data) {
-                //this.postFormSubmission(data);
+                $('#error-message').html('<div class="alert alert-success">'+data.message+'</div>').fadeIn().delay(5000).fadeOut();
             });
         }
     },

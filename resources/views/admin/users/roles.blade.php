@@ -58,8 +58,6 @@
                                             </form>
                                         </div>
                                     @endforeach
-                                        @{{ checkedMenus1 | json }}
-                                        @{{ checkedMenus2 | json }}
                                 </div>
 
                                 <hr>

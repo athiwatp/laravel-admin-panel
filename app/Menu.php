@@ -22,7 +22,8 @@ class Menu extends Model
         return $this->hasMany('App\Menu', 'parent_id', 'id')
             ->join('menu_roles', 'menus.id', '=', 'menu_roles.menu_id')
             ->join('role_users', 'menu_roles.role_id', '=', 'role_users.role_id')
-            ->where('role_users.role_id', '=', $user->pivot->role_id);
+            ->where('role_users.role_id', '=', $user->pivot->role_id)
+            ->groupBy('route');
     }
 
     public function getChildren()
@@ -37,7 +38,7 @@ class Menu extends Model
 
     public function getTopMenu()
     {
-        return $this->topMenuQuery()->whereNull('menus.parent_id')->get();
+        return $this->topMenuQuery()->whereNull('menus.parent_id')->groupBy('route')->get();
     }
 
     private function topMenuQuery()
@@ -68,7 +69,11 @@ class Menu extends Model
 
     public function hasPermission($role_id)
     {
-        return (bool) ( $this->roles()->first()->pivot->role_id == $role_id ) ? 1 : 0;
+        $role_arr = [];
+        foreach ($this->roles as $role_menu) {
+            $role_arr[] = $role_menu->pivot->role_id;
+        }
+        return (bool) ( in_array($role_id, $role_arr) ) ? 1 : 0;
     }
 
 }

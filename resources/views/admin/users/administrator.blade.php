@@ -50,15 +50,24 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="name" class="control-label">Name:</label>
-                                <input type="text" class="form-control" name="name" id="name" v-model="user.name" value="@{{ user.name }}" autocomplete="off">
+                                <input type="text" class="form-control" name="name" id="name" v-model="user.name"
+                                       value="@{{ user.name }}" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="email" class="control-label">Email:</label>
-                                <input type="text" class="form-control" name="email" id="email" v-model="user.email" value="@{{ user.email }}" autocomplete="off">
+                                <input type="text" class="form-control" name="email" id="email" v-model="user.email"
+                                       value="@{{ user.email }}" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="password" class="control-label">Password:</label>
-                                <input type="password" class="form-control" name="password" id="password" v-model="user.password" value="@{{ user.password }}" autocomplete="off">
+                                <input type="password" class="form-control" name="password" id="password"
+                                       v-model="user.password" value="@{{ user.password }}" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="role" class="control-label">Role:</label>
+                                <select class="form-control" name="role" id="role" v-model="user.role">
+                                    <option v-for="role in roles" value="@{{ role.id }}">@{{ role.name }}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -71,7 +80,8 @@
         </div>
 
         <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-        <button type="button" class="btn-add-more btn btn-primary glyphicon glyphicon-plus img-circle" @click="AddNewRecord()"
+        <button type="button" class="btn-add-more btn btn-primary glyphicon glyphicon-plus img-circle" @click="
+        AddNewRecord()"
         data-toggle="modal" data-target="#formModal"></button>
 
     </div>

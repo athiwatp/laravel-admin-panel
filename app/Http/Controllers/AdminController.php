@@ -28,9 +28,10 @@ class AdminController extends Controller
     public function __construct()
     {
         $user = Auth::user();
+        $menu = new Menu;
 
         if ($user) {
-            $top_menus = Menu::find(1)->getTopMenu();
+            $top_menus = $menu->getTopMenu();
         } else {
             $top_menus = new StdClass;
         }

@@ -54,12 +54,14 @@
                     @foreach($top_menus as $menu)
                         <li>
                             @if( ! $menu->children->isEmpty())
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false">
                                     {{ $menu->name }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     @foreach($menu->children as $childMenu)
-                                        <li><a href="{{ url($childMenu->route) }}" class="{{ $childMenu->class }}">{{ $childMenu->name }}</a></li>
+                                        <li><a href="{{ url($childMenu->route) }}"
+                                               class="{{ $childMenu->class }}">{{ $childMenu->name }}</a></li>
                                     @endforeach
                                 </ul>
                             @else
@@ -91,6 +93,13 @@
         </div>
     </div>
 </nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" id="error-message">
+            @include('flash::message')
+        </div>
+    </div>
+</div>
 
 @yield('content')
 
