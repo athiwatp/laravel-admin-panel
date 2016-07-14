@@ -41,7 +41,6 @@ Route::group(['middleware' => ['web']], function () {
         // Admin APIs
         Route::resource('users/api/administrator', 'UsersAdministratorController');
         Route::resource('users/api/roles', 'UsersRolesController');
-
     });
 
 

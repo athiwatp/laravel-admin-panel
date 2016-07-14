@@ -77,7 +77,15 @@ class UsersAdministratorController extends Controller
      */
     public function edit($id)
     {
-        return User::findOrFail($id);
+        $user = User::findOrFail($id);
+
+        return $user::with('roles')->first();
+        /*$role_id = $user->roles()->first()->pivot->role_id;
+
+        $json = json_decode($user,true);
+        $json['role_id'] = $role_id;
+        $data = json_encode($json);*/
+        //return $data;
     }
 
     /**

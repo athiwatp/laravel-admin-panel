@@ -17,7 +17,7 @@ class UsersRolesController extends Controller
 
     public function index()
     {
-        return User::with('roles')->get();
+        return Role::all();
     }
 
     /**

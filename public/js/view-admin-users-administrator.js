@@ -17,13 +17,17 @@ var vm = new Vue({
             name: '',
             email: '',
             password: ''
-        }
+        },
+        roles : []
     },
 
     methods: {
         getRecords: function () {
             this.$http.get('api/administrator', function (data) {
                 this.$set('users', data)
+            });
+            this.$http.get('api/roles', function (data) {
+                this.$set('roles', data)
             })
         },
 
