@@ -16,7 +16,8 @@ var vm = new Vue({
         user: {
             name: '',
             email: '',
-            password: ''
+            password: '',
+            role: ''
         },
         roles : []
     },

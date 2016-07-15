@@ -77,15 +77,8 @@ class UsersAdministratorController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-
-        return $user::with('roles')->first();
-        /*$role_id = $user->roles()->first()->pivot->role_id;
-
-        $json = json_decode($user,true);
-        $json['role_id'] = $role_id;
-        $data = json_encode($json);*/
-        //return $data;
+        //$user = User::find($id);
+        return User::with('roles')->where('id',$id)->first();
     }
 
     /**
@@ -105,6 +98,7 @@ class UsersAdministratorController extends Controller
             ));
         } else {
             $user->update($request->except(['password']));
+            $user->roles()->sync([$request->input('role')]);
         }
 
         return Response::json($request->all());
@@ -127,7 +121,7 @@ class UsersAdministratorController extends Controller
             array('password' => bcrypt($request->input('password'))),
             $request->except(['password'])
         ));
-        $user->roles()->sync(['2']);
+        $user->roles()->sync([$request->input('role')]);
         return $user;
     }
 }
